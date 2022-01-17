@@ -1,33 +1,64 @@
 <style>
-  input.ng-dirty.ng-invalid { border: 2px solid #ff0000 }
-  input.ng-dirty.ng-valid { border: 2px solid #6bc502 }
+  input.ng-dirty.ng-invalid {
+    border: 2px solid #ff0000
+  }
+
+  input.ng-dirty.ng-valid {
+    border: 2px solid #6bc502
+  }
 </style>
 
-<div class="bg-info p-a-1 m-b-1">Model Data: {{jsonProduct}}</div>
-<form novalidate (ngSubmit)="addProduct(newProduct)">
-  <div class="form-group">
-    <label>Name</label>
-    <input class="form-control"
-           name="name"
-           [(ngModel)]="newProduct.name"
-           #name="ngModel"
-           required
-           minlength="5"
-           pattern="^[A-Za-z ]+$"/>
-    <ul class="text-danger list-unstyled" *ngIf="name.dirty && name.invalid">
-      <li *ngIf="name.errors?.['required']">
-        You must enter a product name
-      </li>
-      <li *ngIf="name.errors?.['pattern']">
-        Product names can only contain letters and spaces
-      </li>
-      <li *ngIf="name.errors?.['minlength']">
-        Product names must be at least
-        {{name.errors?.['minlength']['requiredLength']}} characters
-      </li>
+<!--<div class="bg-info p-a-1 m-b-1">Model Data: {{jsonProduct}}</div>-->
+<!--<form novalidate (ngSubmit)="addProduct(newProduct)">-->
+<!--  <div class="form-group">-->
+<!--    <label>Name</label>-->
+<!--    <input class="form-control"-->
+<!--           name="name"-->
+<!--           [(ngModel)]="newProduct.name"-->
+<!--           #name="ngModel"-->
+<!--           required-->
+<!--           minlength="5"-->
+<!--           pattern="^[A-Za-z ]+$"/>-->
+<!--    <ul class="text-danger list-unstyled" *ngIf="name.dirty && name.invalid">-->
+<!--      <li *ngFor="let error of getValidationMessages(name)">{{error}}</li>-->
+<!--    </ul>-->
+<!--    &lt;!&ndash;    <ul class="text-danger list-unstyled" *ngIf="name.dirty && name.invalid">&ndash;&gt;-->
+<!--    &lt;!&ndash;      <li *ngIf="name.errors?.['required']">&ndash;&gt;-->
+<!--    &lt;!&ndash;        You must enter a product name&ndash;&gt;-->
+<!--    &lt;!&ndash;      </li>&ndash;&gt;-->
+<!--    &lt;!&ndash;      <li *ngIf="name.errors?.['pattern']">&ndash;&gt;-->
+<!--    &lt;!&ndash;        Product names can only contain letters and spaces&ndash;&gt;-->
+<!--    &lt;!&ndash;      </li>&ndash;&gt;-->
+<!--    &lt;!&ndash;      <li *ngIf="name.errors?.['minlength']">&ndash;&gt;-->
+<!--    &lt;!&ndash;        Product names must be at least&ndash;&gt;-->
+<!--    &lt;!&ndash;        {{name.errors?.['minlength']['requiredLength']}} characters&ndash;&gt;-->
+<!--    &lt;!&ndash;      </li>&ndash;&gt;-->
+<!--    &lt;!&ndash;    </ul>&ndash;&gt;-->
+<!--  </div>-->
+<!--  <button class="btn btn-primary" type="submit">-->
+<!--    Create-->
+<!--  </button>-->
+<!--</form>-->
+
+<form novalidate #form="ngForm" (ngSubmit)="submitForm(form)">
+  <div class="bg-danger p-a-1 m-b-1" *ngIf="formSubmitted && form.invalid"> There are problems with the form
+    <ul>
+      <li *ngFor="let error of getFormValidationMessages(form)">{{error}}</li>
     </ul>
   </div>
-  <button class="btn btn-primary" type="submit">
-    Create
+  <div class="form-group"><label>Name</label> <input class="form-control" name="name" [(ngModel)]="newProduct.name"
+                                                     #name="ngModel" required minlength="5" pattern="^[A-Za-z ]+$"/>
+    <ul class="text-danger list-unstyled" *ngIf="(formSubmitted || name.dirty) && name.invalid">
+      <li *ngFor="let error of getValidationMessages(name)">{{error}}</li>
+    </ul>
+  </div>
+  <div class="form-group"><label>Price</label> <input class="form-control" name="price" [(ngModel)]="newProduct.price"
+                                                      #price="ngModel" required pattern="^[0-9\.]+$"/>
+    <ul class="text-danger list-unstyled" *ngIf="(formSubmitted || price.dirty) && price.invalid">
+      <li *ngFor="let error of getValidationMessages(price)">{{error}}</li>
+    </ul>
+  </div>
+  <button class="btn btn-primary" type="submit" [disabled]="formSubmitted && form.invalid"
+          [class.btn-secondary]="formSubmitted && form.invalid"> Create
   </button>
 </form>
