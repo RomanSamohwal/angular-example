@@ -2,6 +2,7 @@ import {ApplicationRef, Component, OnInit} from '@angular/core';
 import {Model} from "../model/repository.model";
 import {Product} from "../model/product.model";
 import {NgForm} from "@angular/forms";
+import {ProductFormGroup} from "../model/form.model";
 
 @Component({
   selector: 'product',
@@ -9,6 +10,7 @@ import {NgForm} from "@angular/forms";
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent {
+  form: any = new ProductFormGroup()
 
   model: Model = new Model();
 
@@ -62,7 +64,17 @@ export class ProductComponent {
 
   formSubmitted: boolean = false;
 
-  submitForm(form: NgForm) {
+  // submitForm(form: NgForm) {
+  //   this.formSubmitted = true;
+  //   if (form.valid) {
+  //     this.addProduct(this.newProduct);
+  //     this.newProduct = new Product();
+  //     form.reset();
+  //     this.formSubmitted = false;
+  //   }
+  // }
+
+  submitForm(form: any) {
     this.formSubmitted = true;
     if (form.valid) {
       this.addProduct(this.newProduct);
