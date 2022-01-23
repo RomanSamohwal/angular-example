@@ -1,4 +1,5 @@
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {LimitValidator} from "../limit.formvalidator";
 
 export class ProductFormControl extends FormControl {
   label: string;
@@ -28,6 +29,10 @@ export class ProductFormControl extends FormControl {
  ${this.errors['maxlength'].requiredLength}
  characters`);
             break;
+          case "limit":
+            messages.push(`A ${this.label} cannot be more
+ than ${this.errors['limit'].limit}`);
+            break;
           case "pattern":
             messages.push(`The ${this.label} contains
  illegal characters`);
@@ -50,7 +55,9 @@ export class ProductFormGroup extends FormGroup {
           Validators.maxLength(10)])),
       price: new ProductFormControl("Price", "price", "",
         Validators.compose([Validators.required,
-          Validators.pattern("^[0-9\.]+$")]))
+          // LimitValidator.Limit(100),
+          Validators.pattern("^[0-9\.]+$")])),
+
     });
   }
 
@@ -59,7 +66,7 @@ export class ProductFormGroup extends FormGroup {
       .map(k => this.controls[k] as ProductFormControl);
   }
 
-  getFormValidationMessages(form: any) : string[] {
+  getFormValidationMessages(form: any): string[] {
     let messages: string[] = [];
     this.productControls.forEach(c => c.getValidationMessages()
       .forEach(m => messages.push(m)));

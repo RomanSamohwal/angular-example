@@ -29,6 +29,7 @@ export class ProductComponent {
   }
 
   addProduct(p: Product) {
+    this.model.saveProduct(p);
     console.log("New Product: " + this.jsonProduct);
   }
 
