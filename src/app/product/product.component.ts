@@ -11,7 +11,7 @@ import {ProductFormGroup} from "../model/form.model";
 })
 export class ProductComponent {
   form: any = new ProductFormGroup()
-
+  showTable: boolean = true
   model: Model = new Model();
 
   getProduct(key: number): any {
@@ -22,7 +22,7 @@ export class ProductComponent {
     return this.model.getProducts();
   }
 
-  newProduct: Product = new Product();
+  newProduct: any = new Product();
 
   get jsonProduct() {
     return JSON.stringify(this.newProduct);

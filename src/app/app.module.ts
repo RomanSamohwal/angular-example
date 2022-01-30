@@ -5,18 +5,26 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ProductComponent} from './product/product.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {PaAttrDirective} from "./attr.directive";
+import {PaModel} from "./twoway.directive";
+import {PaStructureDirective} from "./structure.directive";
+import {PaIteratorDirective} from "./iterator.directive";
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductComponent,
-    PaAttrDirective
+    PaAttrDirective,
+    PaModel,
+    PaStructureDirective,
+    PaIteratorDirective
   ],
   imports: [
     NgbModule,
     FormsModule,
-    BrowserModule, ReactiveFormsModule
+    BrowserModule,
+    ReactiveFormsModule
   ],
+  exports: [PaModel],
   providers: [],
   bootstrap: [AppComponent]
 })
